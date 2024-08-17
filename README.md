@@ -2,7 +2,7 @@
 
 PoincaresSDK是一款有poincares.com发布的网络诊断SDK，它具备ICMP Ping、HTTP、MTR以及TCP Ping多种诊断方式。PoincaresSDK配合服务器端的大数据分析与挖掘，向用户提供详尽全面的网络状况分析与诊断，可为用户网络选型提供有力的决策依据。
 
-
+<br />
 
 ## 前置准备
 
@@ -13,7 +13,7 @@ PoincaresSDK是一款有poincares.com发布的网络诊断SDK，它具备ICMP Pi
     private var appSecret : String = "to apply on www.poincares.com"
 ```
 
-
+<br />
 
 ## Android SDK API使用说明
 
@@ -84,7 +84,7 @@ public abstract void uninit();
 
 Session停止后，如不再使用，需进行uninit()，以释放底层资源。
 
-
+<br />
 
 ## Android SDK 权限说明
 
