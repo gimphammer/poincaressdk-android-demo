@@ -2,7 +2,7 @@
 
 PoincaresSDK是一款有poincares.com发布的网络诊断SDK，它具备ICMP Ping、HTTP、MTR以及TCP Ping多种诊断方式。PoincaresSDK配合服务器端的大数据分析与挖掘，向用户提供详尽全面的网络状况分析与诊断，可为用户网络选型提供有力的决策依据。
 
-<br />
+<br /><br />
 
 ## 前置准备
 
@@ -13,7 +13,7 @@ PoincaresSDK是一款有poincares.com发布的网络诊断SDK，它具备ICMP Pi
     private var appSecret : String = "to apply on www.poincares.com"
 ```
 
-<br />
+<br /><br />
 
 ## Android SDK API使用说明
 
@@ -27,7 +27,7 @@ PoincaresSession* pcsSession = PoincaresFactory.createSesion();
 
 通过`PoincaresFactory`先创建一个Session
 
-
+<br />
 
 ### PoincaresSession初始化
 
@@ -52,7 +52,7 @@ opObserver：是操作回调。PoincaresSDK 除了stop，其他接口都是异�
 
 Ctx: 即android应用句柄
 
-
+<br />
 
 ### PoincaresSession启动
 
@@ -64,7 +64,7 @@ int res = session.start()
 
 通过Session的start()接口，启动网络侦测。sdk会连接之前的schedulingServerUrl地址，拉取任务配置，并启动相应任务。
 
-
+<br />
 
 ### PoincaresSession停止
 
@@ -74,7 +74,7 @@ int res = session.start()
 public abstract int stop();
 ```
 
-
+<br />
 
 ### PoincaresSession去初始化
 
@@ -84,7 +84,7 @@ public abstract void uninit();
 
 Session停止后，如不再使用，需进行uninit()，以释放底层资源。
 
-<br />
+<br /><br />
 
 ## Android SDK 权限说明
 
@@ -101,7 +101,7 @@ PoincaresSDK的集成，需要用到以下android权限
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 ```
 
-
+<br />
 
 ### 非加密HTTP权限(不推荐)
 
