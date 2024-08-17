@@ -6,7 +6,7 @@ PoincaresSDK是一款有poincares.com发布的网络诊断SDK，它具备ICMP Pi
 
 ## 前置准备
 
-在使用SDK前，需先在[官网](www.poincares.com)申请AppKey以及AppSecret。并替换demo PoincaresSessionWrapper中的成员变量：
+在使用SDK前，需先在[官网](https://www.poincares.com)申请AppKey以及AppSecret。并替换demo PoincaresSessionWrapper中的成员变量：
 
 ```kotlin
     private var appKey : String    = "to apply on www.poincares.com"
