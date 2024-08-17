@@ -125,7 +125,7 @@ PoincaresSDK的集成，需要用到以下android权限
 </network-security-config>
 ```
 
-但处于安全的考虑，我们并不建议这样做。对于HTTP探测，我们建议取HTTPS目标。
+但处于安全的考虑，我们并不建议这样做。对于HTTP探测，我们建议使用HTTPS方式。
 
 
 
