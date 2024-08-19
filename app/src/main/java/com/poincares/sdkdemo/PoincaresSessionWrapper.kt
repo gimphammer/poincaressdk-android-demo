@@ -36,7 +36,7 @@ class PoincaresSessionWrapper{
 
     private var appKey : String    = "to apply on www.poincares.com"
     private var appSecret : String = "to apply on www.poincares.com"
-    private var schedulingServerUrl : String = "http://8.149.142.50:81/config/center/info"
+    private var schedulingServerUrl : String = "https://account-dev.poincares.com/config/center/info"
     private var appTag : NDAppTag = NDAppTag()
 
     private class TaskDescRecord(initId : Long, initVer : Int) {
