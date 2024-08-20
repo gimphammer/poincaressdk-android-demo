@@ -28,7 +28,6 @@ android {
             isJniDebuggable = false
         }
         debug {
-//        getByName("debug") {
             isJniDebuggable = true
         }
     }

@@ -14,6 +14,7 @@ package com.poincares.sdkdemo
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.widget.Toast
 import com.poincares.sdk.NDAppTag
 import com.poincares.sdk.NDOperationObserver
@@ -38,6 +39,7 @@ class PoincaresSessionWrapper{
     private var appSecret : String = "to apply on www.poincares.com"
     private var schedulingServerUrl : String = "https://account-dev.poincares.com/config/center/info"
     private var appTag : NDAppTag = NDAppTag()
+    private var LOG_TAG : String = "[HPCSDK]SessionWrapper"
 
     private class TaskDescRecord(initId : Long, initVer : Int) {
         public var id : Long = initId
@@ -52,7 +54,8 @@ class PoincaresSessionWrapper{
     private var strBuilder : StringBuilder = StringBuilder()
 
     // Handler定义
-    private val handler: Handler = Handler(Looper.getMainLooper())
+    private val handler  : Handler = Handler(Looper.getMainLooper())
+    private var uiSwitcher : UIStatusSwitcher? = null
 
     private fun handleOperationResult(opResult: NDOperationResult) {
 
@@ -71,28 +74,31 @@ class PoincaresSessionWrapper{
 
         val resultStr = strBuilder.toString()
         Toast.makeText(mainActivity, resultStr, Toast.LENGTH_SHORT).show()
+        Log.e(LOG_TAG, resultStr)
 
-//        if (needToStopSession(opResult.errCode, opResult.type)) {
-//            stopSession()
-//        }
+        if (!canWeCarryOn(opResult.errCode, opResult.type)) {
+            uiSwitcher?.switchToStopped()
+            Helper.showDialog(mainActivity, "Warning",
+                "Network is not connected, or service is offline. Check it or try it later.")
+        }
     }
 
-    private fun needToStopSession(error: Int, opType : PoincaresSession.NDOperationType ): Boolean {
+    //If the service is off line, we need to stop session. and try it later
+    private fun canWeCarryOn(error : Int,
+                             opType : PoincaresSession.NDOperationType) : Boolean
+    {
         var isKeyOperation = false
         isKeyOperation = (PoincaresSession.NDOperationType.kOperationSchedulingRequest == opType
                 || PoincaresSession.NDOperationType.kOperationNDTaskDispatchRequest == opType
-                || PoincaresSession.NDOperationType.kOperationDataReport == opType)
-
-        if (0!= error && isKeyOperation) {
-            return true
-        }
-        return false
+                /*|| PoincaresSession.NDOperationType.kOperationDataReport == opType*/)
+        return !(isKeyOperation && 0 != error)
     }
 
     private val operationObserver = object : NDOperationObserver {
         override fun onOperationEnd(opResult: NDOperationResult) {
-            var opResultCopy = NDOperationResult(opResult)
-            //don't block the JNI thred. post to UI thread to do the job much more overloaded
+            val opResultCopy = NDOperationResult(opResult)
+            //Don't block the JNI thred. Post the opResult to UI thread
+            //to do the job which has heavy overload
             handler.post {
                 handleOperationResult(opResultCopy)
             }
@@ -100,7 +106,7 @@ class PoincaresSessionWrapper{
     }
 
 
-    fun init(activity: Context) {
+    fun init(activity: Context,  switcher: UIStatusSwitcher ) {
         appTag.version = "1.0.0"
         appTag.id   = "PoincarsSDKDemo_android_id#1"
         appTag.name = "PoincarsSDKDemo_android"
@@ -112,6 +118,7 @@ class PoincaresSessionWrapper{
             isInitOK = true
 
         mainActivity = activity
+        uiSwitcher   = switcher
     }
 
     fun uninit() {
@@ -263,6 +270,10 @@ class PoincaresSessionWrapper{
         Toast.makeText(mainActivity, "Mtr-Task add=$res", Toast.LENGTH_SHORT).show()
     }
 
+    public interface UIStatusSwitcher {
+        public fun switchToStarted()
+        public fun switchToStopped()
+    }
 
 }
 

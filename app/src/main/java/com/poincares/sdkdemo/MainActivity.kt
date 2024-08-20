@@ -21,8 +21,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 
-class MainActivity : AppCompatActivity(), View.OnClickListener {
-
+class MainActivity : AppCompatActivity(), View.OnClickListener,
+                     PoincaresSessionWrapper.UIStatusSwitcher
+{
     @Suppress("SpellCheckingInspection")
     private lateinit var poincaresWrapper: PoincaresSessionWrapper
 
@@ -58,18 +59,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             insets
         }
 
-
         initPoincaresSDK()
         initWidgets()
-
-
-        //////////////////////////////
-        //test code only can be added after initWidget()
-//        val nl = NativeLib()
-//
-//        etPingUrl.setText(nl.stringFromJNI())
-//        nl.stringFromJNI()
-        //////////////////////////////
     }
 
     override fun onDestroy() {
@@ -85,21 +76,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 if(!poincaresWrapper.isSessionStarted()
                     && poincaresWrapper.startBySvConfig())
                 {
-                    btnAddPing.isEnabled = true
-                    btnAddHttp.isEnabled = true
-                    btnAddTcpPing.isEnabled = true
-                    btnAddMtr.isEnabled = true
-
-                    btnStartBySvConfig.text = "Stop Session"
+                    switchToStarted()
                 }
                 else if(poincaresWrapper.isSessionStarted() ) {
                     poincaresWrapper.stopSession()
-                    btnAddPing.isEnabled = false
-                    btnAddHttp.isEnabled = false
-                    btnAddTcpPing.isEnabled = false
-                    btnAddMtr.isEnabled = false
-
-                    btnStartBySvConfig.text = "Start by Server Config"
+                    switchToStopped()
                 }
             }
 
@@ -163,14 +144,32 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         btnAddMtr.isEnabled = false
     }
 
-
     private fun initPoincaresSDK() {
         poincaresWrapper = PoincaresSessionWrapper()
-        poincaresWrapper.init(this)
+        poincaresWrapper.init(this, this)
     }
 
     private fun uninitPoincaresSDK() {
         poincaresWrapper.uninit()
     }
 
+
+    override fun switchToStarted() {
+        btnAddPing.isEnabled = true
+        btnAddHttp.isEnabled = true
+        btnAddTcpPing.isEnabled = true
+        btnAddMtr.isEnabled = true
+
+        btnStartBySvConfig.text = "Stop Session"
+    }
+
+    override fun switchToStopped() {
+
+        btnAddPing.isEnabled = false
+        btnAddHttp.isEnabled = false
+        btnAddTcpPing.isEnabled = false
+        btnAddMtr.isEnabled = false
+
+        btnStartBySvConfig.text = "Start by Server Config"
+    }
 }
