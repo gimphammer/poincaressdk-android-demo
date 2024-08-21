@@ -1,10 +1,45 @@
 ## PoincaresSDK简介
 
-PoincaresSDK是一款有poincares.com发布的网络诊断SDK，它具备ICMP Ping、HTTP、MTR以及TCP Ping多种诊断方式。PoincaresSDK配合服务器端的大数据分析与挖掘，向用户提供详尽全面的网络状况分析与诊断，可为用户网络选型提供有力的决策依据。
+PoincaresSDK是一款由poincares.com发布的网络诊断SDK，它具备ICMP Ping、HTTP、MTR以及TCP Ping多种诊断方式。PoincaresSDK配合服务器端的大数据分析与挖掘，向用户提供详尽全面的网络状况分析与诊断，可为用户网络选型提供有力的决策依据。
 
 <br /><br />
 
 ## 前置准备
+
+### SDK下载
+
+地址：https://sdk-release-prod.oss-cn-hangzhou.aliyuncs.com/android-network-analysis-sdk-v1.0.0.zip
+
+<br />
+
+### SDK导入
+
+zip解压后，可以看到aar目录下存有poincares.aar，如图：
+
+![1](./android.README.pic/1.png)
+
+将aar文件copy到app android工程目录下，假设放在名为libs的目录下
+
+![2](./android.README.pic/2.png)
+
+进一步在app module级别的build.gradle.kts中增加配置项：
+
+```kotlin
+    repositories {
+        flatDir {
+            //指定目录
+            dirs("libs")
+        }
+    }
+    dependencies {
+        //指定依赖
+        implementation(files("libs/poincaressdk.aar"))
+    }
+```
+
+<br />
+
+### 准备AppKey/AppSecret
 
 在使用SDK前，需先在[官网](https://www.poincares.com)申请AppKey以及AppSecret。并替换demo PoincaresSessionWrapper中的成员变量：
 
@@ -42,7 +77,7 @@ Session初始化接口如下：
 
 appKey ：是用于集成本SDK的Application标识，可在poincares.com官网申请。
 
-appSecret：会在官网申请appKey是一并分配。
+appSecret：会在官网申请appKey时一并分配。
 
 appTag：所涉及到的java数据结构类NDAppTag主要是对app的一些附属描述，详情可以参阅SDK JavaDoc
 
@@ -108,8 +143,7 @@ PoincaresSDK的集成，需要用到以下android权限
 如果要对非加密HTTP目标进行探测，还需要在AndroidManifest.xml添加`android:networkSecurityConfig`配置，如下：
 
 ```xml
-<application
-			android:networkSecurityConfig="@xml/network_security_config" >
+<application android:networkSecurityConfig="@xml/network_security_config" >
 ```
 
 
@@ -127,7 +161,9 @@ PoincaresSDK的集成，需要用到以下android权限
 
 但处于安全的考虑，我们并不建议这样做。对于HTTP探测，我们建议使用HTTPS方式。
 
+<br /><br />
 
+## 相关链接
 
-
+[App Demo示例](https://github.com/gimphammer/poincaressdk-android-demo)
 

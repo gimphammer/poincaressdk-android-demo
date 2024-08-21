@@ -37,6 +37,7 @@ class PoincaresSessionWrapper{
 
     private var appKey : String    = "to apply on www.poincares.com"
     private var appSecret : String = "to apply on www.poincares.com"
+
     private var schedulingServerUrl : String = "https://account-dev.poincares.com/config/center/info"
     private var appTag : NDAppTag = NDAppTag()
     private var LOG_TAG : String = "[HPCSDK]SessionWrapper"
@@ -60,16 +61,23 @@ class PoincaresSessionWrapper{
     private fun handleOperationResult(opResult: NDOperationResult) {
 
         strBuilder.clear()
-        strBuilder.append("opType=").append(opResult.type)
-            .append(", err=0x").append(Integer.toHexString(opResult.errCode))
+
+        if (0 == opResult.errCode) {
+            strBuilder.append("Success!\n")
+                .append("opType=").append(opResult.type)
+        }
+        else{
+            strBuilder.append("Failed!\n").append("opType=").append(opResult.type)
+                .append(", err=0x").append(Integer.toHexString(opResult.errCode))
+        }
 
         if (null != opResult.extraMsg && !opResult.extraMsg.isEmpty())
             strBuilder.append(", extraMsg=").append(opResult.extraMsg)
 
         if (PoincaresSession.NDOperationType.kOperationTaskAdd  == opResult.type) {
             strBuilder.append(", taskType=").append(opResult.type)
-                .append("taskID=").append(opResult.taskId)
-                .append("taskVersion=").append(opResult.taskVersion)
+                .append(",taskID=").append(opResult.taskId)
+                .append(",taskVersion=").append(opResult.taskVersion)
         }
 
         val resultStr = strBuilder.toString()
@@ -78,8 +86,10 @@ class PoincaresSessionWrapper{
 
         if (!canWeCarryOn(opResult.errCode, opResult.type)) {
             uiSwitcher?.switchToStopped()
-            Helper.showDialog(mainActivity, "Warning",
-                "Network is not connected, or service is offline. Check it or try it later.")
+            Helper.showDialog(mainActivity, "Asynchronous Operation Warning",
+                "Network is not connected, or server is offline"
+                        +", or Check your appkey and appScrect. "
+                        +"If server is offline you can try it later.")
         }
     }
 
