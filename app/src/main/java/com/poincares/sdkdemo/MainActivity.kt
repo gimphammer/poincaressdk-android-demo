@@ -150,6 +150,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
     }
 
     private fun uninitPoincaresSDK() {
+        if (poincaresWrapper.isSessionStarted())
+            poincaresWrapper.stopSession();
+
         poincaresWrapper.uninit()
     }
 
