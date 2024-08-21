@@ -4,15 +4,15 @@ PoincaresSDK是一款由poincares.com发布的网络诊断SDK，它具备ICMP Pi
 
 <br /><br />
 
-## 前置准备
+## 1. 前置准备
 
-### SDK下载
+### 1.1 SDK下载
 
 地址：https://sdk-release-prod.oss-cn-hangzhou.aliyuncs.com/android-network-analysis-sdk-v1.0.0.zip
 
 <br />
 
-### SDK导入
+### 1.2 SDK导入
 
 zip解压后，可以看到aar目录下存有poincares.aar，如图：
 
@@ -39,7 +39,7 @@ zip解压后，可以看到aar目录下存有poincares.aar，如图：
 
 <br />
 
-### 准备AppKey/AppSecret
+### 1.3 准备AppKey/AppSecret
 
 在使用SDK前，需先在[官网](https://www.poincares.com)申请AppKey以及AppSecret。并替换demo PoincaresSessionWrapper中的成员变量：
 
@@ -50,11 +50,11 @@ zip解压后，可以看到aar目录下存有poincares.aar，如图：
 
 <br /><br />
 
-## Android SDK API使用说明
+## 2. Android SDK API使用说明
 
 SDK核心类是PoincaresSession，用户可通过PoincaresSession来进行网络侦测的各项操作。
 
-### PoincaresSession创建
+### 2.1 PoincaresSession创建
 
 ```java
 PoincaresSession* pcsSession = PoincaresFactory.createSesion();
@@ -64,7 +64,7 @@ PoincaresSession* pcsSession = PoincaresFactory.createSesion();
 
 <br />
 
-### PoincaresSession初始化
+### 2.2 PoincaresSession初始化
 
 Session初始化接口如下：
 
@@ -89,7 +89,7 @@ Ctx: 即android应用句柄
 
 <br />
 
-### PoincaresSession启动
+### 2.3 PoincaresSession启动
 
 当`init`调用成功后，即可进一步调用以下接口：
 
@@ -101,7 +101,7 @@ int res = session.start()
 
 <br />
 
-### PoincaresSession停止
+### 2.4 PoincaresSession停止
 
 相应的停止接口为:
 
@@ -111,7 +111,7 @@ public abstract int stop();
 
 <br />
 
-### PoincaresSession去初始化
+### 2.5 PoincaresSession去初始化
 
 ```java
 public abstract void uninit();
@@ -121,9 +121,9 @@ Session停止后，如不再使用，需进行uninit()，以释放底层资源�
 
 <br /><br />
 
-## Android SDK 权限说明
+## 3. Android SDK 权限说明
 
-### 基本权限
+### 3.1 基本权限
 
 PoincaresSDK的集成，需要用到以下android权限
 
@@ -138,7 +138,7 @@ PoincaresSDK的集成，需要用到以下android权限
 
 <br />
 
-### 非加密HTTP权限(不推荐)
+### 3.2 非加密HTTP权限(不推荐)
 
 如果要对非加密HTTP目标进行探测，还需要在AndroidManifest.xml添加`android:networkSecurityConfig`配置，如下：
 
@@ -163,7 +163,7 @@ PoincaresSDK的集成，需要用到以下android权限
 
 <br /><br />
 
-## 相关链接
+## 4. 相关链接
 
 [App Demo示例](https://github.com/gimphammer/poincaressdk-android-demo)
 
